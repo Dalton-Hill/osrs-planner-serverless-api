@@ -42,7 +42,9 @@ app.get('/:itemType', (req, res) => {
     else {
       res.json({ items: result.Items })
     }
-  })
+  });
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 });
 
 // Post Item Endpoint
