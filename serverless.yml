@@ -14,25 +14,26 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
-        - dynamodb:Query
-        - dynamodb:Scan
         - dynamodb:GetItem
         - dynamodb:PutItem
         - dynamodb:UpdateItem
-        - dynamodb:DeleteItem
       Resource:
         - { "Fn::GetAtt": ["OSRSDynamoDBTable", "Arn"] }
   environment:
     OSRS_TABLE: ${self:custom.tableName}
 
 functions:
-  app:
-    handler: index.handler
+  inventory:
+    handler: inventory.handler
     events:
-      - http: ANY /
-        cors: true
-      - http: 'ANY {proxy+}'
-        cors: true
+      - http:
+          path: inventory
+          method: post
+          cors: true
+      - http:
+          path: inventory
+          method: get
+          cors: true
 
 resources:
   Resources:
@@ -41,17 +42,17 @@ resources:
       Properties:
         AttributeDefinitions:
           -
-            AttributeName: itemType
+            AttributeName: cognitoUID
             AttributeType: S
           -
-            AttributeName: name
+            AttributeName: stateName
             AttributeType: S
         KeySchema:
           -
-            AttributeName: itemType
+            AttributeName: cognitoUID
             KeyType: HASH
           -
-            AttributeName: name
+            AttributeName: stateName
             KeyType: RANGE
         ProvisionedThroughput:
           ReadCapacityUnits: 1
