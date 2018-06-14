@@ -8,8 +8,8 @@ const decodeVerifyAndReturnUsername = require('./authenticate').decodeVerifyAndR
 const OSRS_TABLE = process.env.OSRS_TABLE;
 const inventory = 'inventory';
 
-app.use(bodyParser.json({ strict: false }));
 
+app.use(bodyParser.json({ strict: false }));
 
 app.post(`/${inventory}`, (req, res) => {
   res.header("Access-Control-Allow-Origin", "*");
@@ -52,7 +52,7 @@ app.post(`/${inventory}`, (req, res) => {
           }
           else {
             res.statusCode = 200;
-            res.send(data.item.state);
+            res.send({inventory: data["Item"]["state"]});
           }
         })
       } else {
@@ -70,4 +70,4 @@ app.post(`/${inventory}`, (req, res) => {
 module.exports.handler = serverless(app);
 
 
-// command to test api: curl -v -H "Content-Type: application/json" -d '{"token": "eyJraWQiOiJxVWdvUG5Pd1VhOWZ0NnhQWVwvd3BHRFhhVWRIZXphZVpFNEhoaEJ6aHVIVT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI2MTM2YTJlYy04ZGQ3LTRmNjQtYjVjZS1mYzA2ZTc2MjMyYTciLCJhdWQiOiJpdGtuZTk3ZDFnNnVkajQ4OGtqYjllajJiIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMmJjNzBmYzgtNmZlNS0xMWU4LTgyYjMtNDc0OTUxMjNiMWUyIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1Mjg5ODkwNzAsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX0tPNXR3N1RSdyIsImNvZ25pdG86dXNlcm5hbWUiOiI2MTM2YTJlYy04ZGQ3LTRmNjQtYjVjZS1mYzA2ZTc2MjMyYTciLCJleHAiOjE1Mjg5OTI2NzAsImlhdCI6MTUyODk4OTA3MCwiZW1haWwiOiJkYWx0b24uaGlsbDIwMjJAZ21haWwuY29tIn0.XXXLUiVA4QY-Ctgpir-o-AIZdalb4ZuhQK1VrG5e7tBmjESPMFTxAhzctYHdmiSN0eSuppjLYxiZj3p4b936OO_aZ6b9TIRnSahQPrq5E0RLGVFM2j8UnjxsIgwzp5ZkJi3PzXOMp5a96oQ2qT_m6vsnMlVBIqvvs4fJWxyr1INhECAIi2cWlNGJbmUtIvivTg2Od7ivfQ8_ZY3VXVWpoHFMU2xriUInaYQX9_1N0Hqfwe8cLGzK2nnKcx83yvxraoW0pHYzZcfDkU0hIIwLVp1DD3zGP4tCOAvB_kDkkW7Oijcpm7qvLCcxV6SFxMy9Mk0bAsjKsqDfQzHxr3S0Ig", "inventory": {"items": [], "actions": []}, "intent": "get" }' http://localhost:3000/inventory
+// command to test api: curl -v -H "Content-Type: application/json" -d '{"token": "eyJraWQiOiJxVWdvUG5Pd1VhOWZ0NnhQWVwvd3BHRFhhVWRIZXphZVpFNEhoaEJ6aHVIVT0iLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiI2MTM2YTJlYy04ZGQ3LTRmNjQtYjVjZS1mYzA2ZTc2MjMyYTciLCJhdWQiOiJpdGtuZTk3ZDFnNnVkajQ4OGtqYjllajJiIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImV2ZW50X2lkIjoiMzM2YmJhNDMtNzAwNy0xMWU4LWJmZDAtM2JlNjI4Nzk2YzZkIiwidG9rZW5fdXNlIjoiaWQiLCJhdXRoX3RpbWUiOjE1MjkwMDM2ODYsImlzcyI6Imh0dHBzOlwvXC9jb2duaXRvLWlkcC51cy1lYXN0LTEuYW1hem9uYXdzLmNvbVwvdXMtZWFzdC0xX0tPNXR3N1RSdyIsImNvZ25pdG86dXNlcm5hbWUiOiI2MTM2YTJlYy04ZGQ3LTRmNjQtYjVjZS1mYzA2ZTc2MjMyYTciLCJleHAiOjE1MjkwMDcyODYsImlhdCI6MTUyOTAwMzY4NiwiZW1haWwiOiJkYWx0b24uaGlsbDIwMjJAZ21haWwuY29tIn0.a-tZPat9Cof5hmbInS5-bGSBhMHbBxSjifHOceJ_fSTd_710UWHD3y3GqpOeeawVcV3sXqFk7hKLvbHWr2ujsV4-zWyEMBFLFwRgxkAq3cTZQbWxnzeyfkXg2DP7mihFl08CVqt5wSmSiSuycp50USlCVABwOC7OyOHvi48XOxvltAMQbfIqNM6TahDb6Z3lvls4GxU6LuMMvXaLv5shBgjKjiVHun4HIUjdOoTJKFelropoUMo-1Jej1Orxq_j5flY-_knvFfix8bSOyW6_G0uogNgEQk7ZQuHcd8oEhMRZ5OLIEuuENpMq_rO5Y_mgPv1jigvJ30Nc_IkHzRZw0Q", "inventory": {"items": [], "actions": []}, "intent": "get" }' http://localhost:3000/inventory

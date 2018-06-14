@@ -30,10 +30,6 @@ functions:
           path: inventory
           method: post
           cors: true
-      - http:
-          path: inventory
-          method: get
-          cors: true
 
 resources:
   Resources:
