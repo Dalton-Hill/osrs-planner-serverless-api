@@ -23,7 +23,6 @@ const decodeVerifyAndReturnUsername = (token) => new Promise((resolve, reject) =
         // search for the kid in the downloaded public keys
         const keyIndex = keys.findIndex(key => key.kid === kid);
         if (keyIndex === -1) {
-          console.log('Public key not found in jwks.json');
           reject({message: 'Public key not found in jwks.json', username: undefined})
         }
 
