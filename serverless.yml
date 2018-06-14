@@ -1,7 +1,7 @@
 service: osrs-serverless-api
 
 custom:
-  tableName: 'osrs-table-${self:provider.stage}'
+  tableName: 'osrs-${self:provider.stage}'
   dynamodb:
     start:
       migrate: true
