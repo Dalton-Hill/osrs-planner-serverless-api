@@ -26,32 +26,34 @@ const decodeVerifyAndReturnUsername = (token) => new Promise((resolve, reject) =
           console.log('Public key not found in jwks.json');
           reject({message: 'Public key not found in jwks.json', username: undefined})
         }
+
         // construct the public key
         jose.JWK.asKey(keys[keyIndex]).
         then(function(result) {
+
           // verify the signature
           jose.JWS.createVerify(result).
           verify(token).
           then(function(result) {
+
             // now we can use the claims
             const claims = JSON.parse(result.payload);
+
             // additionally we can verify the token expiration
             const currentTimestamp = Math.floor(new Date() / 1000);
-            if (currentTimestamp > claims.exp) {
-              reject({message: 'Token is expired', username: undefined})
-            }
+            if (currentTimestamp > claims.exp) reject({message: 'Token is expired', username: undefined});
+
             // and the Audience (use claims.client_id if verifying an access token)
-            if (claims.aud !== app_client_id) {
-              reject({message: 'Token was not issued for this audience', username: undefined})
-            }
+            if (claims.aud !== app_client_id) reject({message: 'Token was not issued for this audience', username: undefined});
             resolve({message: 'Success', username: claims["cognito:username"]})
+
           }).
-          catch(function() {
-            reject({message: 'Signature verification failed', username: undefined, token})
-          });
+          catch(() => reject({message: 'Signature verification failed', username: undefined, token}));
         })
-        .catch(err => { reject({message: err, username: undefined})});
+        .catch(err => reject({message: err, username: undefined}));
       });
+    } else {
+      reject({ message: 'Keys URL returned non 200 code.', username: undefined })
     }
   });
 });
