@@ -30,6 +30,13 @@ functions:
           path: inventory
           method: post
           cors: true
+  actions:
+    handler: actions.handler
+    events:
+      - http:
+          path: actions
+          method: post
+          cors: true
 
 resources:
   Resources:
